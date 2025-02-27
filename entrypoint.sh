@@ -47,4 +47,5 @@ if [[ -f results.json ]]; then
     }' results.json > tmp.json && mv tmp.json results.json
 fi
 
+echo "status: $OPENGREP_EXIT_CODE"
 exit $OPENGREP_EXIT_CODE
