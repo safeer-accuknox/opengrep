@@ -25,8 +25,8 @@ set -e
 ############## Download and extract the latest OpenGrep rules from GitHub: END ############## 
 
 # Run opengrep with CMD arguments passed from Docker
-echo opengrep scan . -f "$RULES_DIR" --json --output results.json "$@"
-opengrep scan . -f "$RULES_DIR" --json --output results.json "$@"
+echo opengrep scan . -f "$RULES_DIR" --metrics=off --error --json --output results.json "$@"
+opengrep scan . -f "$RULES_DIR" --metrics=off --error --json --output results.json "$@"
 OPENGREP_EXIT_CODE=$?
 
 if [[ -f results.json ]]; then
