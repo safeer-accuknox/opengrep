@@ -40,3 +40,7 @@ To run OpenGrep with Docker:
             -e JOB_URL="$JOB_URL" \
             safeeraccuknox/demo:opengreptest-1.2
 ```
+
+## Versions
+- Opengrep CLI Version: v1.0.0-alpha.14
+- Default Rules: https://github.com/opengrep/opengrep-rules/commits/main/, f1d2b562b414783763fd02a6ed2736eaed622efa 
