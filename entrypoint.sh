@@ -3,9 +3,6 @@
 # Load Git environment variables
 source /set_git_env.sh
 
-# Extract the repository name from the REPOSITORY_URL
-REPO_NAME=$(basename -s .git "$REPOSITORY_URL")
-
 # Default directory for rules (fallback in case new rules fail validation)
 RULES_DIR="/rules/default-rules"
 
