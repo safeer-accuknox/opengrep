@@ -3,7 +3,6 @@ FROM python:3.9.21-slim
 ENV LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
     PATH="/usr/local/bin:$PATH" \
-    WORKDIR="/app" \
     SEMGREP_SEND_METRICS="off"
 
 ENV REPOSITORY_URL="" \
@@ -20,6 +19,5 @@ RUN chmod +x /usr/local/bin/opengrep && chmod +x /entrypoint.sh && chmod +x /set
 
 RUN apt update -y && apt install curl jq git -y 
 
-WORKDIR $WORKDIR
+WORKDIR /app
 ENTRYPOINT ["/entrypoint.sh"]
-CMD [""]
