@@ -27,6 +27,7 @@ fi
 # Run opengrep with CMD arguments passed from Docker
 echo opengrep scan . -f "$RULES_DIR" --json --output results.json "$@"
 opengrep scan . -f "$RULES_DIR" --json --output results.json "$@"
+OPENGREP_EXIT_CODE=$?
 
 if [[ -f results.json ]]; then
   # Append metadata to the results JSON file using jq
@@ -45,3 +46,5 @@ if [[ -f results.json ]]; then
       repo_run_url: $repo_run_url
     }' results.json > tmp.json && mv tmp.json results.json
 fi
+
+exit $OPENGREP_EXIT_CODE
