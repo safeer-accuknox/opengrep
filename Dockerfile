@@ -6,14 +6,20 @@ ENV LANG=C.UTF-8 \
     WORKDIR="/app" \
     SEMGREP_SEND_METRICS="off"
 
-WORKDIR $WORKDIR
+ENV REPOSITORY_URL="" \
+    COMMIT_SHA="" \
+    COMMIT_REF="" \
+    PIPELINE_ID="" \
+    JOB_URL=""
+
 
 COPY opengrep /usr/local/bin
-COPY opengrep-rules ./default-rules
-COPY entrypoint.sh .
-RUN chmod +x /usr/local/bin/opengrep && chmod +x entrypoint.sh
+COPY opengrep-rules /rules/default-rules
+COPY entrypoint.sh set_git_env.sh /
+RUN chmod +x /usr/local/bin/opengrep && chmod +x /entrypoint.sh && chmod +x /set_git_env.sh
 
-RUN apt update -y && apt install curl jq -y
+RUN apt update -y && apt install curl jq git -y 
 
-ENTRYPOINT ["./entrypoint.sh"]
+WORKDIR $WORKDIR
+ENTRYPOINT ["/entrypoint.sh"]
 CMD [""]
