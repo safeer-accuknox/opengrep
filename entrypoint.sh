@@ -10,7 +10,7 @@ mkdir -p /rules/new-rules
 
 ############## Download and extract the latest OpenGrep rules from GitHub: START ############## 
 ## Fallback added as default-rules
-# set +e  
+set +e  
 curl -L --silent https://api.github.com/repos/opengrep/opengrep-rules/tarball/main | tar -xz -C /rules/new-rules --strip-components=1 2>/dev/null
 rm -rf /rules/new-rules/.pre-commit-config.yaml /rules/new-rules/stats /rules/new-rules/.github 2>/dev/null
 
@@ -21,7 +21,7 @@ if [ -d "/rules/new-rules" ] && [ "$(ls -A /rules/new-rules 2>/dev/null)" ]; the
         RULES_DIR="/rules/new-rules"
     fi
 fi
-# set -e  
+set -e  
 ############## Download and extract the latest OpenGrep rules from GitHub: END ############## 
 
 # Run opengrep with CMD arguments passed from Docker
