@@ -10,18 +10,23 @@ mkdir -p /rules/new-rules
 
 ############## Download and extract the latest OpenGrep rules from GitHub: START ############## 
 ## Fallback added as default-rules
-set +e  
-curl -L --silent https://api.github.com/repos/opengrep/opengrep-rules/tarball/main | tar -xz -C /rules/new-rules --strip-components=1 2>/dev/null
-rm -rf /rules/new-rules/.pre-commit-config.yaml /rules/new-rules/stats /rules/new-rules/.github 2>/dev/null
+CURRENT_OPENGREP_RULES_COMMIT_SHA=$(git ls-remote https://github.com/opengrep/opengrep-rules main | awk '{print $1}')
 
-if [ -d "/rules/new-rules" ] && [ "$(ls -A /rules/new-rules 2>/dev/null)" ]; then
-    opengrep scan --metrics=off --validate -f /rules/new-rules/ >/dev/null 2>&1
-    VALIDATION_SUCCESS=$?
-    if [ $VALIDATION_SUCCESS -eq 0 ]; then
-        RULES_DIR="/rules/new-rules"
-    fi
+# Compare commit hashes
+if [ "$CURRENT_OPENGREP_RULES_COMMIT_SHA" != "$SAVED_OPENGREP_RULES_COMMIT_SHA" ]; then
+  set +e  
+  curl -L --silent https://api.github.com/repos/opengrep/opengrep-rules/tarball/main | tar -xz -C /rules/new-rules --strip-components=1 2>/dev/null
+  rm -rf /rules/new-rules/.pre-commit-config.yaml /rules/new-rules/stats /rules/new-rules/.github 2>/dev/null
+
+  if [ -d "/rules/new-rules" ] && [ "$(ls -A /rules/new-rules 2>/dev/null)" ]; then
+      opengrep scan --metrics=off --validate -f /rules/new-rules/ >/dev/null 2>&1
+      VALIDATION_SUCCESS=$?
+      if [ $VALIDATION_SUCCESS -eq 0 ]; then
+          RULES_DIR="/rules/new-rules"
+      fi
+  fi
+  set -e  
 fi
-set -e  
 ############## Download and extract the latest OpenGrep rules from GitHub: END ############## 
 
 # Run opengrep with CMD arguments passed from Docker
